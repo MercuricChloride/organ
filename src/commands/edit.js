@@ -5,14 +5,15 @@ const command = {
 
     const read = filesystem.read(filesystem.cwd() + '/tasks.json', 'json')
     const { tasks } = read
-    let projects = []
-    projects = tasks.filter((item) => item.project)
+    const projects = tasks.map((item) => item.project)
 
     const askProject = {
       type: 'select',
       name: 'project',
       message: 'What project should we edit?',
-      choices: await projects.map((x) => x.project),
+      choices: await projects.filter(
+        (item, index, self) => self.indexOf(item) === index
+      ),
     }
 
     const { project } = await prompt.ask(askProject)
@@ -21,12 +22,16 @@ const command = {
       type: 'select',
       name: 'description',
       message: 'What task should we edit?',
-      choices: await projects.map((x) => x.description),
+      choices: await tasks
+        .filter((item) => item.project === project)
+        .map((x) => x.description),
     }
 
     const { description } = await prompt.ask(askDescription)
 
-    const task = tasks.find((item) => item.description == description)
+    const task = tasks.find(
+      (item) => item.description === description && item.project === project
+    )
 
     const askChange = {
       type: 'select',
@@ -45,14 +50,14 @@ const command = {
 
     const { update } = await prompt.ask(askUpdate)
 
-    task[change] = update
+    task[change] = await update
 
     const newTasks = await tasks.filter(
-      (item) => item.project != project && item.description != description
+      (item) => item.project !== project && item.description !== description
     )
 
     await newTasks.push(task)
-    read.tasks = newTasks
+    read.tasks = await newTasks
     filesystem.write(filesystem.cwd() + '/tasks.json', read)
     print.success('Task successfully updated!')
   },
