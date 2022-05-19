@@ -1,6 +1,6 @@
 # organ CLI
 
-A CLI for organ.
+Organ-ize your life!
 
 ## Customizing your CLI
 
@@ -20,5 +20,4 @@ $ npm publish
 
 # License
 
-MIT - see LICENSE
-
+GPLv3 - see LICENSE
