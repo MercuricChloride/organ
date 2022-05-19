@@ -1,0 +1,14 @@
+{
+  "tasks": [
+    {
+      "project": "Personal",
+      "description": "Create a cli task management tool",
+      "done": "n"
+    },
+    {
+      "project": "Personal",
+      "description": "Further Expand upon the cli",
+      "done": "n"
+    }
+  ]
+}
